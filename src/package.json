@@ -1,0 +1,42 @@
+{
+    "name": "@aetherinox/cf-worker-doh",
+    "version": "1.0.0",
+    "description": "DNS-over-HTTPS proxy on Cloudflare Workers",
+    "homepage": "https://github.com/aetherinox/cf-worker-doh",
+    "author": "Aetherinox",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Aetherinox",
+            "email": "118329232+Aetherinox@users.noreply.github.com",
+            "url": "https://github.com/Aetherinox"
+        },
+        {
+            "name": "EuropaServ",
+            "email": "118329232+Aetherinox@users.noreply.github.com",
+            "url": "https://github.com/EuropaServ"
+        }
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Aetherinox/cf-worker-doh.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Aetherinox/cf-worker-doh/issues"
+    },
+    "keywords": [
+        "aetherinox",
+        "cloudflare",
+        "cloudflare-worker",
+        "worker",
+        "wrangler",
+        "self-hosting",
+        "dns-over-https",
+        "doh",
+        "dns"
+    ],
+    "main": "index.js"
+}

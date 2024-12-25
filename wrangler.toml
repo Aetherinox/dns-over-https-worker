@@ -1,0 +1,114 @@
+# #
+#   Cloudflare Worker > DoH (DNS over HTTPS)
+#
+#   Production
+#       wrangler dev --env production
+#       wrangler deploy --env production
+#
+#   Dev
+#       wrangler dev --env dev
+#       wrangler deploy --env dev
+# #
+
+name = "doh"
+main = "src/index.js"
+workers_dev = true
+compatibility_date = "2024-09-23"
+# route = "example.com/dns-query"
+
+# #
+#   Smart Placement
+#
+#   Once enabled, Smart Placement analyzes the request duration of the Worker in different Cloudflare locations around the
+#   world on a regular basis. Smart Placement decides where to run the Worker by comparing the estimated request duration
+#   in the location closest to where the request was received (the default location where the Worker would run) to a set of
+#   candidate locations around the world. For each candidate location, Smart Placement considers the performance of the Worker
+#   in that location as well as the network latency added by forwarding the request to that location. If the estimated request 
+#   uration in the best candidate location is significantly faster than the location where the request was received, the
+#   request will be forwarded to that candidate location. Otherwise, the Worker will run in the default location closest to
+#   where the request was received.
+# #
+
+[placement]
+    mode = "smart"
+
+# #
+#   The rate limiting API is in open beta.
+#   https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+# #
+
+[[unsafe.bindings]]
+    name = "doh"
+    type = "ratelimit"
+    namespace_id = "1001"
+    simple = { limit = 60, period = 60 }
+
+# #
+#   [ Environment ] Production
+#   For production environment, use '-e production'
+# #
+
+[env.production]
+    name = "doh"
+    workers_dev = true
+
+    # #
+    #   [ Environment ] Production - Vars
+    # #
+
+    [env.production.vars]
+        ENVIRONMENT = "production"
+        URL_SERVICE_DOH = "https://dns.domain.dev/dns-query"
+        URL_SERVICE_JSON = "https://dns.domain.dev/dns-query"
+        URL_SUBDOMAIN = "/dns-query"
+        THROTTLE_DAILY_LIMIT = 2000
+
+    # #
+    #   The rate limiting API is in open beta.
+    #   https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+    # #
+
+    [[env.production.unsafe.bindings]]
+        name = "doh"
+        type = "ratelimit"
+        namespace_id = "1001"
+        simple = { limit = 60, period = 60 }
+
+# #
+#   [ Environment ] Development
+#   For dev environment, use '-e dev'
+# #
+
+[env.dev]
+    name = "doh"
+    workers_dev = true
+
+    # #
+    #   [ Environment ] Development - Vars
+    # #
+
+    [env.dev.vars]
+        ENVIRONMENT = "dev"
+        URL_SERVICE_DOH = "https://dns.domain.dev/dns-query"
+        URL_SERVICE_JSON = "https://dns.domain.dev/dns-query"
+        URL_SUBDOMAIN = "/dns-query"
+        THROTTLE_DAILY_LIMIT = 2000
+
+    # #
+    #   The rate limiting API is in open beta.
+    #   https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+    # #
+
+    [[env.dev.unsafe.bindings]]
+        name = "doh"
+        type = "ratelimit"
+        namespace_id = "1001"
+        simple = { limit = 60, period = 60 }
+
+# #
+#   Logs
+#   https://developers.cloudflare.com/workers/observability/logs/
+# #
+
+[observability]
+    enabled = true
